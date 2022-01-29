@@ -14,19 +14,32 @@ class Database
     public function __construct()
     {
         $this->mysql = new mysqli($this->host, $this->user, $this->password, $this->dbNmae);
+        return $this->mysql;
     }
     /**
      *
      * Select Function
      */
 
-    public function select($colms = ['* or', 'columnName1', "columnName2"], $table = 'tableName', $where = ["key" => 'value'], $limit = 'integer value')
+    public function select($colms = ['* or', 'columnName1', "columnName2"], $table = 'tableName', $where = ["key" => 'value'])
     {
         $sql = "SELECT " . $this->checkColumn($colms) . " FROM " . $table . $this->checkWhere($where);
 
-        // echo $sql;
+        echo $sql;
         // die();
 
+        $result = $this->mysql->query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return $this->mysql->error;
+        }
+    }
+
+    public function OrderBY($colms = ['* or', 'columnName1', "columnName2"], $table = 'tableName', $orderBY = ["id", "ASC"], $limit, $offset)
+    {
+
+        $sql = "SELECT " . $this->checkColumn($colms) . " FROM " . $table . $this->formatOrderBY($orderBY) . $this->checkLimit($limit, $offset);
         $result = $this->mysql->query($sql);
         if ($result) {
             return $result;
@@ -39,7 +52,7 @@ class Database
      *
      * Insert Query Function
      */
-    public function insert($table, $data = ["columnName" => "value"], $where = [])
+    public function insert($table, $data = ["columnName" => "value"])
     {
 
         $sql = "INSERT INTO $table " . $this->makeData($data);
@@ -54,16 +67,23 @@ class Database
      * Update Function
      */
 
-    public function update($colms, $table, $where = [])
+    public function update($colms, $table, $data = [], $where = ["key" => 'value'])
     {
-        # code...
+        // $colName = array_keys($data);
+        // $colValue = array_values($data);
+        $sql = "UPDATE " . $table . " SET ";
+        $result = $this->mysql->query($sql);
+        if ($result) {
+            return $result;
+        }
+
     }
 
     /**
      *
      * Delete Function
      */
-    public function delete($colms, $table)
+    public function delete($colms, $table, $where = ["key" => 'value'])
     {
         # code...
     }
@@ -89,7 +109,7 @@ class Database
      */
     private function checkWhere($where)
     {
-        if (!empty($where)) {
+        if (!empty($where) && is_array($where) && $where !== ["key" => 'value'] && $where !== null) {
             $sql = " WHERE ";
             $count = 1;
             foreach ($where as $key => $value) {
@@ -111,9 +131,9 @@ class Database
      *
      * Value Manupulate Function
      */
-    public function makeData($data = [])
+    private function makeData($data = [])
     {
-        if (!empty($data)) {
+        if (!empty($data) && $data !== ["columnName" => "value"]) {
             $columnName = array_keys($data);
             $columnValue = array_values($data);
             $colName = '';
@@ -133,26 +153,35 @@ class Database
         }
     }
 
+    private function formatOrderBY($orderBY)
+    {
+        if (!empty($orderBY)) {
+            if (is_array($orderBY) && $orderBY !== ["Column_name", "order"]) {
+                $sql = ' ORDER BY ' . implode(" ", $orderBY);
+                return $sql;
+            } else {
+                // throw new Exception("Input not an array: ['orderBY','order']", 1);
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
+
+    private function checkLimit($limit, $offset)
+    {
+        if (!empty($limit)) {
+            $sql = " LIMIT " . $limit;
+            if (!empty($offset)) {
+                $sql .= " OFFSET " . $offset;
+                return $sql;
+            } else {
+                return $sql;
+            }
+
+        } else {
+            return $limit = '';
+        }
+    }
+
 }
-
-$db = new Database();
-
-// $result = $db->select(['name', 'author', 'publish_date'], 'books', ['id' => 6, "name" => "Julian Gardner"]);
-// if ($result) {
-//     echo "<pre>";
-//     foreach ($result as $key => $value) {
-//         print_r($value);
-//     }
-// }
-
-// $result = $db->select("*", 'books', ['name' => "OOP", "author" => "Programmer"]);
-// if ($result) {
-//     $row = (object) $result->fetch_assoc();
-//     if (($row->name == "OOP")) {
-//         echo "exist";
-//     }
-// }
-
-// $result = $db->insert('books', ["name" => "OOP", "author" => "Programmer", "rating" => 3.5, "publish_date" => "2009-02-14", "details" => "simple Details", "user_id" => 9, "category_id" => 3]);
-// echo "<pre>";
-// print_r($result);
