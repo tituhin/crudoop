@@ -16,56 +16,60 @@ class Database {
 
         $colmns = $this->getCol($colmns);
         $where = $this->checkWhere($where);
-        $sql = "SELECT " . $colmns . " FROM " . $table.$where;
-        
+        $sql = "SELECT " . $colmns . " FROM " . $table . $where;
         $result = $this->conn->query($sql);
         return $result;
     }
-    
-    
-    function insert($table,$data=["colName"=>"value"]) {
-        
+
+    function insert($table, $data = ["colName" => "value"]) {
+
         $data = $this->formatData($data);
-        $sql = "INSERT INTO ".$table.$data;
+        $sql = "INSERT INTO " . $table . $data;
 //        echo $sql;exit;
         $result = $this->conn->query($sql);
-        if($this->conn->affected_rows == 1){
+        
+        if ($this->conn->affected_rows == 1) {
             return $result;
-        }  else {
+        } else {
             return $this->conn->error;
         }
     }
-    
-    function update($table,$updateArr=[],$where=[]) {
+
+    function update($table, $updateArr = [], $where = ["key" => 'value']) {
         $updateArr = $this->updateArr($updateArr);
         $where = $this->checkWhere($where);
-        $sql = "UPDATE ".$table.' SET '.$updateArr.$where;
+        $sql = "UPDATE " . $table . ' SET ' . $updateArr . $where;
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return 'error';
         }
     }
-    
-    
-    function delete($table,$where=['key'=>'value']) {
-        
+
+    function delete($table, $where = ['key' => 'value']) {
+
         $where = $this->checkWhere($where);
-        $sql = 'DELETE FROM '.$table.$where;
+        $sql = 'DELETE FROM ' . $table . $where;
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return '';
         }
     }
     
     
+    function pagination($colmns=[],string $table, int $limit, int $offset) {
+        $colmns = $this->getCol($colmns);
+        $sql = "SELECT " . $colmns . " FROM " . $table ." limit ".$limit." offset ".$offset;
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 
     private function getCol($colmns) {
         if (!empty($colmns)) {
-            
+
             if (is_array($colmns) && $colmns !== ['columnName1', 'columnName2']) {
                 $sql = implode(",", $colmns);
                 return $sql;
@@ -76,9 +80,8 @@ class Database {
             return '*';
         }
     }
-    
-    private function checkWhere($where)
-    {
+
+    private function checkWhere($where) {
         if (!empty($where) && is_array($where) && $where !== ["key" => 'value']) {
             $sql = " WHERE ";
             $count = 1;
@@ -90,37 +93,34 @@ class Database {
                 }
                 $count++;
             }
-            
+
             return $sql;
         } else {
             return '';
         }
-
     }
-    
-    
+
     private function updateArr($updateArr) {
-        if(!empty($updateArr)){
+        if (!empty($updateArr)) {
             $sql = '';
-            $count= 1;
+            $count = 1;
             foreach ($updateArr as $key => $value) {
-                if ($count == count($updateArr)){
-                $sql .= $key." = '".$value."' ";
-                }else{
-                $sql .= $key." = '".$value."', ";
+                if ($count == count($updateArr)) {
+                    $sql .= $key . " = '" . $value . "' ";
+                } else {
+                    $sql .= $key . " = '" . $value . "', ";
                 }
                 $count++;
             }
             return $sql;
-        }else{
+        } else {
             return 'error';
         }
     }
-    
-    
+
     // this will format inserted data from $_POST
     private function formatData($data) {
-        if (!empty($data) && $data !== ["colName"=>"value"]) {
+        if (!empty($data) && $data !== ["colName" => "value"]) {
             $columnName = array_keys($data);
             $columnValue = array_values($data);
             $colName = '';
@@ -136,15 +136,9 @@ class Database {
             }
             $string = "(" . $colName . ") VALUES " . " (" . $colValue . ") ";
             return $string;
-
+        }else{
+            return 0;
         }
     }
 
-
-    
-    
-    
-    
-    
-    
 }

@@ -1,21 +1,23 @@
 <?php
 
 require_once 'Database.php';
+require_once 'Auth.php';
 
 class Book {
     
     private $conn;
+    private $session;
 
     public function __construct() {
+        
         $this->conn = new Database();
+        $this->session = new Auth();
     }
 
     function index($col, $table) {
         $result = $this->conn->select($col, $table);
         return $result;
     }
-    
-    
     // insert Function for book
     function insert($table, $data = []) {
         $result = $this->conn->insert($table, $data);
@@ -57,6 +59,15 @@ class Book {
             return 'failed';
         }
         
+    }
+    
+    function pagination($colms,$table,$limit,$offset) {
+        $result = $this->conn->pagination($colms, $table, $limit, $offset);
+        if($result){
+            return $result;
+        }else{
+            return 0;
+        }
     }
 
 }
