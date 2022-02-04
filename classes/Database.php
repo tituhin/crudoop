@@ -15,21 +15,21 @@ class Database {
     }
 
     // Select Function 
-    function select($colmns = ['columnName1', 'columnName2'], $table, $where = ["key" => 'value']) {
+    public function select($colmns = ['columnName1', 'columnName2'], $table, $where = ["key" => 'value']) {
 
         $colmns = $this->getCol($colmns);
         $where = $this->checkWhere($where);
         $sql = "SELECT {$colmns} FROM {$table} {$where}";
-//        echo $sql;exit;
+        // echo $sql;exit;
         $result = $this->conn->query($sql);
         return $result;
     }
 
     // Insert Function
-    function insert($table, $data = ["colName" => "value"]) {
+    public function insert($table, $data = ["colName" => "value"]) {
         
         $sql = "INSERT INTO {$table} {$this->formatData($data)} ";
-//        echo $sql;exit;
+    //    echo $sql;exit;
         $result = $this->conn->query($sql);
 
         if ($this->conn->affected_rows == 1) {
@@ -40,11 +40,11 @@ class Database {
     }
 
     //Update Function
-    function update($table, $updateArr = [], $where = ["key" => 'value']) {
+    public function update($table, $updateArr = [], $where = ["key" => 'value']) {
         $updateArr = $this->updateArr($updateArr);
         $where = $this->checkWhere($where);
         $sql = "UPDATE {$table} SET {$updateArr} {$where}";
-//        echo $sql;exit;
+       echo $sql;exit;
         $result = $this->conn->query($sql);
         if ($result) {
             return $result;
@@ -54,7 +54,7 @@ class Database {
     }
 
     // Delete Function
-    function delete($table, $where = ['key' => 'value']) {
+    public function delete($table, $where = ['key' => 'value']) {
 
         $where = $this->checkWhere($where);
         $sql = "DELETE FROM {$table} {$where}";
@@ -76,8 +76,39 @@ class Database {
         return $result;
     }
 
-    public function join($join = ["join1", 'join2'],$where) {
-        $sql = "{$join}  ";
+    public function join($colums = '', $maintable = '', $jointype = ['INNER JOIN'], $joinTables = ['other tables'], $joinConditions = ["ON Condition"], $where = '', $limit = '', $offset = '') {
+        $where = $this->checkWhere($where);
+
+        if (empty($colums) or!is_string($colums)) {     // checking column if exist as string
+            return "<label class=" . "text-danger" . "> Please Enter Columns Name </label> ";
+        } elseif (empty($maintable) or!is_string($maintable)) {        //checking main Table if exist as string
+            return "<label class=" . "text-danger" . "> Please Enter Main Table </label> ";
+        } elseif (empty($jointype) or!is_array($jointype)) {        // checking join type if exist as an array
+            return "<label class=" . "text-danger" . "> Please Enter join Type as an array e.g. ['Inner JOIN','LEFT JOIN'] </label> ";
+        } elseif (empty($joinTables) or!is_array($joinTables)) {        // checking Table names if exist as an array
+            return "<label class=" . "text-danger" . "> Please Enter joining Tables Name as an array e.g. ['table1','table2'] </label> ";
+        } elseif (empty($joinConditions) or!is_array($joinConditions)) {     // checking Joining Condition if exist as an array
+            return "<label class=" . "text-danger" . "> Please Enter joining Condition as an array e.g. ['table1.id = table2_id','table2'] </label> ";
+        } elseif (count($joinTables) != count($jointype) && count($joinConditions) != count($jointype)) {
+            return "<label class=" . "text-danger" . "> Some thing wrong in Join type or tables </label> ";
+        } else {
+            $sql = "SELECT {$colums} FROM {$maintable }";
+            foreach ($jointype as $key => $join) {
+                $sql .= " {$join} {$joinTables[$key]} ON {$joinConditions[$key]} ";
+            }
+            if ($limit == '') {
+                $sql .= "{$where} ";
+            } else {
+                $sql .= "{$where} LIMIT {$limit} OFFSET {$offset}";
+            }
+//            echo $sql;exit;
+            $result = $this->conn->query($sql);
+            if ($result) {
+                return $result;
+            } else {
+                return $this->conn->error;
+            }
+        }
     }
 
     /**
@@ -107,13 +138,13 @@ class Database {
             $count = 1;
             foreach ($where as $key => $value) {
                 if ($count == count($where)) {
-                    $sql .= " {$key} = ' {$value} ' ";
+                    $sql .= " {$key} = '{$value}' ";
                 } else {
-                    $sql .= " {$key}  = ' {$value} ' AND " ;
+                    $sql .= " {$key}  = '{$value}' AND " ;
                 }
                 $count++;
             }
-
+            
             return $sql;
         } else {
             return '';
@@ -165,5 +196,7 @@ class Database {
             return '';
         }
     }
+    
+    
 
 }

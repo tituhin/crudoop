@@ -21,10 +21,10 @@ $limit = (int) $limit;
 $offset = ($page - 1) * $limit;
 //echo $limit;exit;
 $bookObj = new Book();
-$books = $bookObj->pagination('*', 'books', $limit, $offset);
+$books = $bookObj->join("books.*, book_categories.name as category_name,users.name as user_name", "books", ['INNER JOIN',"INNER JOIN"], ["users","book_categories"], ["users.id = books.user_id","book_categories.id = books.category_id"],'', $limit, $offset);
 $totalRowCount = $bookObj->index("*", "books")->num_rows;
 $totalPage = ceil($totalRowCount / $limit);
-//print_r($totalPage);
+//print_r($books);exit;
 ?>
 
 <style>
@@ -71,7 +71,7 @@ $totalPage = ceil($totalRowCount / $limit);
             <select class="custom-select col-3" name="limit" id="inputGroupSelect02">
                 <option selected value="">Choose a Limit..</option>
                 <option <?php ($limit == $totalRowCount) ? 'selected' : '' ?> value=<?= $totalRowCount ?> > See All (<?= $totalRowCount ?>) Books</option>
-                <option<?php ($limit == 5) ? 'selected' : '' ?> value=5>5 Row</option>
+                <option <?php ($limit == 5) ? 'selected' : '' ?> value=5>5 Row</option>
                 <option <?php ($limit == 10) ? 'selected' : '' ?> value=10>10 Row</option>
                 <option <?php ($limit == 20) ? 'selected' : '' ?> value=20>20 Row</option>
             </select>
@@ -99,7 +99,8 @@ $totalPage = ceil($totalRowCount / $limit);
             <th>#</th>
             <th>Book Name</th>
             <th>Auhor</th>
-            <th>Rating</th>
+            <th>Category</th>
+            <th>Published</th>
             <th>Actions</th>
 
         </tr>
@@ -108,15 +109,14 @@ $totalPage = ceil($totalRowCount / $limit);
 <?php foreach ($books as $key => $book) { ?>
             <tr>            
                 <th><?= ++$key; ?></th>
-                <td><?= $book['name'] ?> </td>
+                <td><?=( $book['name'] )?> </td>
                 <td><?= $book['author'] ?> </td>
+                <td><?= $book['category_name'] ?> </td>
+                <td><?= $book['publish_date'] ?> </td>
+                
                 <td>
-                    <?= $book['rating']
-                    ?>
-                </td>
-                <td>
-                    <a href="<?php echo 'http://localhost/officecrudapp/crudoop/views/book/edit.php?id=' . $book['id'] ?>"class="btn btn-primary col">Edit</a>
-                    <a href="<?php echo 'http://localhost/officecrudapp/crudoop/views/book/delete.php?id=' . $book['id'] ?>" onclick=" return confirm('Are you sure?')" class="btn btn-danger col">Delete</a>
+                    <a href="<?php echo 'http://localhost:8080/crudoop/views/book/edit.php?id=' . $book['id'] ?>"class="btn btn-primary col">Edit</a>
+                    <a href="<?php echo 'http://localhost:8080/crudoop/views/book/delete.php?id=' . $book['id'] ?>" onclick=" return confirm('Are you sure?')" class="btn btn-danger col">Delete</a>
                     <button type="button" onclick="myfunc(this)" value="<?= $book['id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Details
                     </button>

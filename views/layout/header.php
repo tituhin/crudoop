@@ -30,7 +30,7 @@ require_once '../session.php';
                             <li class="crumb nav-item"><a class="nav-link" href="index.php">HOME </a></li>
                             <li class="crumb"><a class="nav-link" href="">Services </a></li>
                             <li class="crumb main_logout">
-                                <a class="nav-link float-left btn-danger" href="http://localhost/crudoop/views/logout.php">Logout</a>
+                                <a class="nav-link float-left btn-danger" href="http://localhost:8080/crudoop/views/logout.php">Logout</a>
                             </li>
                         </ul>
                     </div>            

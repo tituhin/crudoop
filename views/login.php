@@ -2,18 +2,18 @@
 session_start();
 require_once '../classes/Auth.php';
 //if(isset($_SESSION['id'])){
-//    header("location: http://localhost/crudoop/views/book/index.php");
+//    header("location: http://localhost:8080/crudoop/views/book/index.php");
 //}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $authObj = new Auth();
 $user = $authObj->login('*', 'users', ["email" => $_POST["email"]],$_POST['psw']);
-//print_r($user);exit;
+// print_r($user);exit;
 if (password_verify($_POST['psw'], $user->password)) {
     $_SESSION['id'] = $user->id;
     $_SESSION['email'] = $user->email;
-    header("location: http://localhost/crudoop/views/book/index.php");
+    header("location: http://localhost:8080/crudoop/views/book/index.php");
 } else {
-    header("location: http://localhost/crudoop/views/login.php");
+    header("location: http://localhost:8080/crudoop/views/login.php");
 }
 
 }

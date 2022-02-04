@@ -3,7 +3,7 @@ require_once './views/layout/header.php';
 require_once './classes/Book.php';
 
 $objbook = new Book();
-$books = $objbook->index("*", 'books');
+$books = $objbook->join("books.*, book_categories.name as category_name,users.name as user_name", ["books"], ['INNER JOIN', "INNER JOIN"], ["users", "book_categories"], ["users.id = books.user_id", "book_categories.id = books.category_id"]);
 
 ?>
 
@@ -73,6 +73,21 @@ $books = $objbook->index("*", 'books');
         </div>
     </div>
 </div>
+
+
+//<?php
+//$bok = new Book();
+//$result = $bok->join("books.*, book_categories.name as category_name,users.name as user_name", ["books"], ['INNER JOIN', "INNER JOIN"], ["users", "book_categories"], ["users.id = books.user_id", "book_categories.id = books.category_id"]);
+//$type = gettype($result);
+////print_r($result);
+//if (gettype($result) == "array") {
+//    echo 'yes it is an array';
+//} elseif (gettype($result) == "string") {
+//    echo $result;
+//} else {
+//    print_r($result);
+//}
+//?>
 
 <script>
             var modal = document.getElementsByClassName("modal fade")[0];

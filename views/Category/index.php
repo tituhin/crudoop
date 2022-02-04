@@ -115,8 +115,8 @@ $totalPage = ceil($totalRowCount / $limit);
                     ?>
                 </td>
                 <td>
-                    <a href="<?php echo 'http://localhost/crudoop/views/book/edit.php?id=' . $book['id'] ?>"class="btn btn-primary col">Edit</a>
-                    <a href="<?php echo 'http://localhost/crudoop/views/book/delete.php?id=' . $book['id'] ?>" onclick=" return confirm('Are you sure?')" class="btn btn-danger col">Delete</a>
+                    <a href="<?php echo 'http://localhost:8080/crudoop/views/book/edit.php?id=' . $book['id'] ?>"class="btn btn-primary col">Edit</a>
+                    <a href="<?php echo 'http://localhost:8080/crudoop/views/book/delete.php?id=' . $book['id'] ?>" onclick=" return confirm('Are you sure?')" class="btn btn-danger col">Delete</a>
                     <button type="button" onclick="myfunc(this)" value="<?= $book['id'] ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Details
                     </button>
