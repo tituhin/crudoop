@@ -1,0 +1,314 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+div.navbar{
+    min-height: 20px;
+    width: 100%;
+    /*border: 3px solid #F4FB5C;*/
+    /*background-color: #F4FB5C;*/
+}
+.nav-item{
+    background-color: #F4FB5C;
+}
+li.crumb {
+    display: inline-block;
+    width:15em;
+    height:2em;
+    padding:5px;
+    border:.2em solid white;
+    border-radius: 1em;
+    text-align: center;
+    background-color: bisque
+}
+li.crumb:hover{
+    background-color: menu;
+    font-size: large;
+}
+li.crumb.main_logout {
+    float: right;
+}
+li.a{
+    font-size: 2em;
+    text-decoration: dotted;
+}
+a:hover{
+    color: red;
+}
+.content {
+    position: relative;
+    width: 100em;
+
+}
+.sidenav {
+    width: 20em;
+    background-color: white;
+    margin-top: 1em;
+    border-radius: 0.5em;
+    text-align: -webkit-center;
+    float: left;
+}
+li.sidelist {
+    margin: 0.5em;
+    background-color: lightblue;
+    width: auto;
+    padding: 0.5em;
+    border-style: solid;
+}
+.main{
+    background-color: white;
+    width: 79em;
+    float: right;
+    height: 100%;
+    margin: 0.5em;
+    border-radius: 0.5em;
+}
+p.copyright {
+    position: absolute;
+    width: 100%;
+    background-color: #ffff99;
+    bottom: 0;
+    text-align: center;
+    height: 70px;
+    font-size: 2em;
+} 
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+    /*float: left;*/
+    width: 50%;
+}
+
+
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+
+
+h2.login {
+    text-align: center;
+}
+form.login-form{
+    width: fit-content;
+    margin-left: 25em;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+    float: left;
+    width: 50%;
+}
+
+/* Add padding to container elements */
+
+
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+form.signupform {
+    width: 50%;
+    margin-left: 25em;
+}
+button.signupbtn {
+    margin-left: 15em;
+}
+b {
+    color: blue;
+}
+
+
+
+a.signup_link {
+    margin-left: 15em;
+    float: right;
+    text-align: end;
+    font-size: x-large;
+}
+
+
+/* adding book Form */
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+div.book_add{
+    margin: 2% 10em 0;
+}
+.btn_add_book{
+    margin-left: 30em;
+}
+
+/* book Table CSS */
+
+
+table#bookTable {
+    width: 50%;
+    margin: 2em;
+}
+a.btn.btn-primary.float-right {
+    float: right;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
