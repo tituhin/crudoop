@@ -22,7 +22,7 @@ $offset = ($page - 1) * $limit;
 //echo $limit;exit;
 $bookObj = new Book();
 $books = $bookObj->join("books.*, book_categories.name as category_name,users.name as user_name", "books", ['INNER JOIN',"INNER JOIN"], ["users","book_categories"], ["users.id = books.user_id","book_categories.id = books.category_id"],'', $limit, $offset);
-$totalRowCount = $bookObj->index("*", "books")->num_rows;
+$totalRowCount = $bookObj->join("books.*, book_categories.name as category_name,users.name as user_name", "books", ['INNER JOIN',"INNER JOIN"], ["users","book_categories"], ["users.id = books.user_id","book_categories.id = books.category_id"])->num_rows;
 $totalPage = ceil($totalRowCount / $limit);
 //print_r($books);exit;
 ?>
